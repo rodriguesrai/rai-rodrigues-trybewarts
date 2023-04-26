@@ -26,3 +26,11 @@
 #trybewarts-forms-logo {
     height: 500px;
 }
+
+.nomeSobrenome {
+    display: flex;
+}
+
+.emailCasa{
+    display: flex;
+}
