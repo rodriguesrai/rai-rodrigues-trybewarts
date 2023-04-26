@@ -16,7 +16,17 @@ const checkbox = document.querySelector('#agreement');
 const desabilitaBotao = () => {
   if (checkbox.checked === true) {
     botaoEnviar.disabled = false;
+  } else {
+    botaoEnviar.disabled = true;
   }
 };
 
 checkbox.addEventListener('click', desabilitaBotao);
+
+const textArea = document.querySelectorAll('.textarea')[1];
+const counter = document.querySelector('#counter');
+const updateCounter = () => {
+  counter.innerText = 500 - textArea.value.length;
+  console.log(textArea.value.length);
+}
+textArea.addEventListener('keyup', updateCounter);
