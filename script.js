@@ -10,3 +10,13 @@ const alertaLogin = () => {
   }
 }
 botaoLogin.addEventListener('click', alertaLogin);
+
+const botaoEnviar = document.querySelector('#submit-btn');
+const checkbox = document.querySelector('#agreement');
+const desabilitaBotao = () => {
+ if (checkbox.checked === true) {
+    botaoEnviar.disabled = false;
+ }
+};
+
+checkbox.addEventListener('click', desabilitaBotao);

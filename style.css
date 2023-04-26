@@ -27,14 +27,7 @@
     height: 500px;
 }
 
-.nomeSobrenome {
+.flex {
     display: flex;
 }
 
-.emailCasa {
-    display: flex;
-}
-
-.avaliacao-trybewarts {
-    display: flex;
-}
