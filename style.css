@@ -31,6 +31,10 @@
     display: flex;
 }
 
-.emailCasa{
+.emailCasa {
+    display: flex;
+}
+
+.avaliacao-trybewarts {
     display: flex;
 }
