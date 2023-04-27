@@ -30,7 +30,8 @@ const updateCounter = () => {
 };
 textArea.addEventListener('keyup', updateCounter);
 
-const main = document.querySelector('.main');
+const main = document.getElementById('main');
+const form = document.getElementsByTagName('form');
 const formData = document.createElement('p');
 formData.setAttribute('id', 'form-data');
 
@@ -50,10 +51,11 @@ botaoEnviar.addEventListener('click', (event) => {
   let conteudosStr = 'Matérias:';
   for (let i = 0; i < conteudos.length; i += 1) {
     if (conteudos[i].checked === true) {
-    if (i === 0) {
-      conteudosStr = conteudosStr + ' ' + conteudos[i].value;
-    } else {
-    conteudosStr = conteudosStr + ', ' + conteudos[i].value;
+      if (conteudosStr === 'Matérias:') {
+        conteudosStr = conteudosStr + ' ' + conteudos[i].value;
+      } else {
+        conteudosStr = conteudosStr + ', ' + conteudos[i].value;
+      }
     }
   }
 
@@ -61,16 +63,14 @@ botaoEnviar.addEventListener('click', (event) => {
   Email: ${email} <br>
   Casa: ${casa} <br>
   Família: ${familia} <br>
-  Matérias: ${conteudosStr} <br>
+  ${conteudosStr} <br>
   Avaliação: ${avaliacao} <br>
   Observações: ${observacoes} <br>
   `;
 
   formData.innerHTML = strFinal;
-  main.firstChild.replaceWith(formData);
-  main.removeChild(document.querySelector('#evaluation-form'));
-  // main.prependChild(formData);
+  formData.id = 'form-data';
+  main.childNodes[1].style.display = 'none';
+  main.prepend(formData);
 
-  }
 });
-
