@@ -19,25 +19,49 @@ const desabilitaBotao = () => {
   } else {
     botaoEnviar.disabled = true;
   }
+  document.querySelector('.agreement-container').classList.add('was-validated');
 };
+
+document.querySelector('.send-button-container').addEventListener('click', () => {
+  document.querySelector('.agreement-container').classList.add('was-validated');
+});
 
 checkbox.addEventListener('click', desabilitaBotao);
 
 const textArea = document.querySelectorAll('.textarea')[1];
 const counter = document.querySelector('#counter');
 const updateCounter = () => {
-  counter.innerText = 500 - textArea.value.length;
+  const charRemaining = 500 - textArea.value.length;
+  counter.innerText = charRemaining;
+  if (charRemaining <= 100) {
+    counter.style.color = 'red';
+  } else if (charRemaining > 100) {
+    counter.style.color = 'black';
+  }
 };
 textArea.addEventListener('keyup', updateCounter);
 
-const main = document.getElementById('main');
-const form = document.getElementsByTagName('form');
-const formData = document.createElement('p');
-formData.setAttribute('id', 'form-data');
+const constroiStringMaterias = (conteudos) => {
+  const conteudosArr = [];
+  for (let i = 0; i < conteudos.length; i += 1) {
+    if (conteudos[i].checked === true) {
+      conteudosArr.push(conteudos[i].value);
+    }
+  }
+  const conteudosArrFormatoStr = ['<strong>Matérias:</strong>', ''];
+  for (let i = 0; i < conteudosArr.length; i += 1) {
+    conteudosArrFormatoStr.push(` ${conteudosArr[i]},`);
+  }
+  const lastItem = conteudosArrFormatoStr.pop();
+  const lastItemSplit = lastItem.split('');
+  lastItemSplit.pop();
+  conteudosArrFormatoStr.push(lastItemSplit.join(''));
+  const conteudosStrTemp = conteudosArrFormatoStr.join('');
+  return conteudosStrTemp;
+};
 
-botaoEnviar.addEventListener('click', (event) => {
-  event.preventDefault();
-
+const constroiFormDataString = () => {
+  // for (let i = 0; i < document.querySelectorAll('.main>input'));
   const nome = document.getElementById('input-name').value;
   const sobrenome = document.getElementById('input-lastname').value;
   const email = document.getElementById('input-email').value;
@@ -47,30 +71,27 @@ botaoEnviar.addEventListener('click', (event) => {
   const avaliacao = document.querySelector('input[name="rate"]:checked').value;
   const observacoes = document.getElementById('textarea').value;
 
-  // Percorre NodeList de conteudos selecionados
-  let conteudosStr = 'Matérias:';
-  for (let i = 0; i < conteudos.length; i += 1) {
-    if (conteudos[i].checked === true) {
-      if (conteudosStr === 'Matérias:') {
-        conteudosStr = conteudosStr + ' ' + conteudos[i].value;
-      } else {
-        conteudosStr = conteudosStr + ', ' + conteudos[i].value;
-      }
-    }
-  }
+  const conteudosStr = constroiStringMaterias(conteudos);
 
-  const strFinal = `Nome: ${nome} ${sobrenome} <br>
-  Email: ${email} <br>
-  Casa: ${casa} <br>
-  Família: ${familia} <br>
-  ${conteudosStr} <br>
-  Avaliação: ${avaliacao} <br>
-  Observações: ${observacoes} <br>
+  const strFinal = `<strong>Nome:</strong> ${nome} ${sobrenome}<br><strong>Email: </strong>${email} 
+  <br><strong>Casa:</strong> ${casa} <br><strong>Família:</strong> ${familia} <br>${conteudosStr}
+  <br><strong>Avaliação:</strong> ${avaliacao} <br><strong>Observações:</strong> ${observacoes} <br>
   `;
+  return strFinal;
+};
 
-  formData.innerHTML = strFinal;
-  formData.id = 'form-data';
+const main = document.getElementById('main');
+const formDataContainer = document.createElement('div');
+formDataContainer.id = 'form-data';
+const formData = document.createElement('p');
+formDataContainer.appendChild(formData);
+
+botaoEnviar.addEventListener('click', (event) => {
+  event.preventDefault();
+  const pFormData = constroiFormDataString();
+  formData.innerHTML = pFormData;
   main.childNodes[1].style.display = 'none';
-  main.prepend(formData);
-
+  main.prepend(formDataContainer);
 });
+
+console.log(main.querySelectorAll('input'));
